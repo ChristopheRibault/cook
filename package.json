@@ -1,0 +1,17 @@
+{
+  "name": "cookapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "resources": "env $(cat .env) ./resources/run.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.21.12",
+    "mysql": "^2.18.1",
+    "uuid": "^8.3.1"
+  }
+}
