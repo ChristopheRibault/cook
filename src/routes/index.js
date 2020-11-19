@@ -1,9 +1,11 @@
 import express from 'express';
 import Promise from 'bluebird';
 
+import Recipes from './recipes.route';
+
 const routes = [
-  
-]
+  ...Recipes,
+];
 
 export const createRouter = (app) => {
   const router = express.Router();
