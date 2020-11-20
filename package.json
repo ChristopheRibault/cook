@@ -1,0 +1,29 @@
+{
+  "name": "cookapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "local": "env $(cat .env) pm2 startOrRestart ecosystem.config.js",
+    "resources": "env $(cat .env) ./resources/run.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "joi": "^17.3.0",
+    "knex": "^0.21.12",
+    "mysql": "^2.18.1",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/register": "^7.12.1",
+    "morgan": "^1.10.0"
+  }
+}

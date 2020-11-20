@@ -1,0 +1,16 @@
+version: '2.0'
+services:
+
+  mysql-main:
+    image: mysql:5.7
+    container_name: resources_mysql-main
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=clevy-local-main
+      - MYSQL_USER=clevy
+      - MYSQL_PASSWORD=clevy
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/main/data:/var/lib/mysql
+

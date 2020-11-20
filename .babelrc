@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "8.11"
+        }
+      }
+    ]
+  ],
+  "ignore": [
+    "test",
+    "scripts/**",
+    "src/knex/migrations",
+    "src/knex/data"
+  ]
+}
