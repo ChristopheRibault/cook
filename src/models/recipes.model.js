@@ -1,12 +1,3 @@
-import knex from 'knex';
-import knexfile from '../knexfile';
-const db = knex(knexfile.development);
+import GenericModel from './generic.model';
 
-export default class RecipesModel {
-
-  static async createRecipe(params) {
-    return db('recipes')
-      .insert(params)
-  }
-
-}
+export default class RecipesModel extends GenericModel('recipes') {};
