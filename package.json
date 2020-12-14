@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "local": "env $(cat .env) pm2 startOrRestart ecosystem.config.js",
-    "resources": "env $(cat .env) ./resources/run.sh"
+    "resources": "env $(cat .env) ./resources/run.sh",
+    "scrape": "node ./resources/scraper/process.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "joi": "^17.3.0",
     "knex": "^0.21.12",
     "mysql": "^2.18.1",
+    "scrape-it": "^5.2.4",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
