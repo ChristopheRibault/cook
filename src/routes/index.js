@@ -3,7 +3,7 @@ import Promise from 'bluebird';
 
 import Recipes from './recipes.route';
 
-const routes = [
+export const routes = [
   ...Recipes,
 ];
 
@@ -12,10 +12,11 @@ export const createRouter = (app) => {
 
   routes.forEach((r) => {
     router[r.method.toLowerCase()](r.path, (req, res, next) => {
-      Promise.each(r.validators, validator => validator(req, res))
+      Promise.each(r.validators, (validator) => validator(req, res))
         .then(() => r.handler(req, res))
 
-        .then(data => {
+        // eslint-disable-next-line consistent-return
+        .then((data) => {
           if (!res.headersSent) return res.send(data);
         })
         .catch(next);

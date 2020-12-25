@@ -1,24 +1,31 @@
+import Uuid from 'uuid/dist/v4';
 import db from '../knex';
 
-export default function(table) {
+export default (table) => {
   class GenericModel {
+    static async createOne(params) {
+      return this.createBulk([params]);
+    }
 
     static async createBulk(params) {
+      await Promise.map(params, (entry) => Object.assign(entry, { uuid: Uuid() }));
+
       return db(table)
-        .insert(params);
+        .insert(params)
+        .then(() => params);
     }
-  
+
     static async getOne(uuid) {
       return db(table)
-        .where({ uuid });
+        .where({ uuid })
+        .then((data) => data[0]);
     }
 
     static async getAll() {
-      return db(table);
+      return db(table)
+        .select();
     }
-
   }
 
-  return GenericModel
-}
-
+  return GenericModel;
+};
