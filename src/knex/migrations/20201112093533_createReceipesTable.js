@@ -3,7 +3,7 @@ exports.up = function(knex) {
     t.collate('utf8_unicode_ci');
     t.string('uuid', 36).notNullable().unique();
     t.string('title').notNullable();
-    t.string('link').notNullable();
+    t.string('link');
     t.text('instructions');
     t.string('origin');
     t.string('creator_uuid', 36);
