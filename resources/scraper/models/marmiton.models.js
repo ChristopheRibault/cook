@@ -1,9 +1,9 @@
 export default {
 
   lastPage: {
-    data : {
+    data: {
       listItem: '.showMorePages > li',
-    }
+    },
   },
 
   list: {
@@ -14,9 +14,9 @@ export default {
         link: {
           selector: '.recipe-card-link',
           attr: 'href',
-        }
-      }
-    }
+        },
+      },
+    },
   },
 
   recipes: {
@@ -28,9 +28,9 @@ export default {
         complement: '.recipe-ingredient__complement',
         qty: {
           selector: '.recipe-ingredient-qt',
-          convert: x => Number(x) || null,
-        } 
-      }
+          convert: (x) => Number(x) || null,
+        },
+      },
     },
     instructions: {
       listItem: '.recipe-preparation__list__item',
