@@ -17,4 +17,10 @@ export default [
     validators: [],
     handler: controllers.Recipes.getRecipeByUuid,
   },
-]
+  {
+    method: 'PATCH',
+    path: '/recipes/:uuid',
+    validators: [],
+    handler: controllers.Recipes.updateRecipe,
+  },
+];

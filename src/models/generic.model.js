@@ -15,6 +15,14 @@ export default (table) => {
         .then(() => params);
     }
 
+    static async updateOne(uuid, params) {
+      return db(table)
+        .insert(Object.assign(params, { uuid }))
+        .onConflict('uuid')
+        .merge()
+        .then(() => uuid);
+    }
+
     static async getOne(uuid) {
       return db(table)
         .where({ uuid })
