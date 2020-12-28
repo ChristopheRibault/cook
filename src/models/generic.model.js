@@ -1,36 +1,26 @@
-import Uuid from 'uuid/dist/v4';
-import db from '../knex';
+import { Relational } from '../database';
 
-export default (table) => {
+export default (collection) => {
   class GenericModel {
+    static Relational = Relational;
+
     static async createOne(params) {
       return this.createBulk([params]);
     }
 
     static async createBulk(params) {
-      await Promise.map(params, (entry) => Object.assign(entry, { uuid: Uuid() }));
-
-      return db(table)
-        .insert(params)
-        .then(() => params);
-    }
-
-    static async updateOne(uuid, params) {
-      return db(table)
-        .insert(Object.assign(params, { uuid }))
-        .onConflict('uuid')
-        .merge()
-        .then(() => uuid);
+      return Relational
+        .setAll(collection, params);
     }
 
     static async getOne(uuid) {
-      return db(table)
-        .where({ uuid })
-        .then((data) => data[0]);
+      return Relational
+        .findOne(collection, uuid);
     }
 
     static async getAll() {
-      return db(table)
+      return Relational
+        .db(collection)
         .select();
     }
   }

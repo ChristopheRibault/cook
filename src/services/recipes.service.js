@@ -1,4 +1,4 @@
-import db from '../knex';
+import db from '../database/relational/knex';
 
 export default class RecipeService {
   static async populate(data) {

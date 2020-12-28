@@ -3,7 +3,7 @@ export default [
     method: 'POST',
     path: '/recipes',
     validators: [validators.Recipes],
-    handler: controllers.Recipes.createRecipe,
+    handler: controllers.Recipes.createRecipes,
   },
   {
     method: 'GET',

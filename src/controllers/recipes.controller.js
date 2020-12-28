@@ -9,7 +9,7 @@ export default class RecipesController {
    * @param {Object} req http request
    * @returns {Object[]} inserted data
    */
-  static async createRecipe(req) {
+  static async createRecipes(req) {
     const recipes = Array.isArray(req.body) ? req.body : [req.body];
 
     await Promise.each(recipes, async (recipe) => {

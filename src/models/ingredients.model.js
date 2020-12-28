@@ -1,13 +1,11 @@
 import Uuid from 'uuid/dist/v4';
-import db from '../knex';
-
 import GenericModel from './generic.model';
 
 export default class IngredientsModel extends GenericModel('ingredients') {
   static async selectOrCreate(ingredients) {
     const toCreate = [];
     await Promise.each(ingredients, async (ingredient) => {
-      ingredient.ingredient_uuid = await db('ingredients')
+      ingredient.ingredient_uuid = await this.Relational.db('ingredients')
         .where({ name: ingredient.name })
         .select('uuid')
         .then((res) => res[0]?.uuid);
