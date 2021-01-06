@@ -1,5 +1,3 @@
-import Uuid from 'uuid/dist/v4';
-
 import { RecipeService } from '../services';
 import { Dbrecipes, Dbingredients, DbrecipeIngredient } from '../models';
 
@@ -12,12 +10,16 @@ export default class RecipesController {
   static async createRecipes(req) {
     const recipes = Array.isArray(req.body) ? req.body : [req.body];
 
-    await Promise.each(recipes, async (recipe) => {
-      recipe.uuid = Uuid();
+    await Promise.each(recipes, async (data) => {
+      // Insert Recipe in DB
+      let recipe = { ...data };
       recipe.instructions = recipe.instructions.join('\n');
+      recipe.origin = 'api';
+      delete recipe.ingredients;
+      recipe = await Dbrecipes.createOne(recipe);
 
       // Add new ingredients in DB and get uuids of ingredients
-      const recipeIngredients = await Dbingredients.selectOrCreate(recipe.ingredients)
+      const recipeIngredients = await Dbingredients.selectOrCreate(data.ingredients)
         .then((ingredients) => ingredients.map((ingredient) => {
           ingredient.recipe_uuid = recipe.uuid;
           return ingredient;
@@ -25,13 +27,9 @@ export default class RecipesController {
 
       // Insert recipeIngredients in DB
       await DbrecipeIngredient.createBulk(recipeIngredients);
-
-      delete recipe.ingredients;
-      recipe.origin = 'api';
     });
 
-    // Insert recipe in DB
-    return Dbrecipes.createBulk(recipes);
+    return recipes;
   }
 
   /**

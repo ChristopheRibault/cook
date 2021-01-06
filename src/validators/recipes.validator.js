@@ -34,9 +34,9 @@ export default ((req) => {
   });
 
   const valid = Joi.alternatives().try(recipe, Joi.array().items(recipe))
-    .validate(req.body);
+    .validate(req.body, { stripUnknown: { objects: true } });
 
   if (valid.error) throw createError(400, valid.error);
 
-  return valid;
+  req.body = valid.value;
 });

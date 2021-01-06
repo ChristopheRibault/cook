@@ -76,4 +76,22 @@ export default class Relational extends Generic {
       throw new Error(`db connector 'find' failure. ${e.message}`);
     }
   }
+
+  /**
+   * Find many by uuids
+   * @static
+   * @async
+   * @param {string} collection
+   * @param {string[]} uuids
+   * @returns {object[]}
+   */
+  static findByUuids(collection, uuids) {
+    try {
+      return this.db(collection)
+        .whereIn('uuid', uuids)
+        .select();
+    } catch (e) {
+      throw new Error(`db connector 'findByUuids' failure. ${e.message}`);
+    }
+  }
 }
