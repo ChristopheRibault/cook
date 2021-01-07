@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "mocha --require @babel/register",
     "local": "env $(cat .env) pm2 startOrRestart ecosystem.config.js",
     "resources": "env $(cat .env) ./resources/run.sh",
     "scrape": "node ./resources/scraper/process.js"
@@ -30,10 +30,12 @@
     "@babel/eslint-parser": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
-    "@types/jest": "^26.0.20",
+    "@types/mocha": "^8.2.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "jest": "^25.5.4"
+    "mocha": "^8.2.1"
   }
 }
