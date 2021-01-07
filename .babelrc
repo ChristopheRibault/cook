@@ -13,7 +13,6 @@
     ]
   ],
   "ignore": [
-    "test",
     "scripts/**",
     "src/knex/migrations",
     "src/knex/data"
