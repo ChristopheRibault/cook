@@ -2,6 +2,7 @@ import Uuid from 'uuid/dist/v4';
 import knex from 'knex';
 import knexfile from './knex/knexfile';
 import Generic from '../generic.database';
+import Filter from './filters.relational';
 
 export default class Relational extends Generic {
   static db = knex(knexfile[process.env.NODE_ENV]);
@@ -72,6 +73,26 @@ export default class Relational extends Generic {
         .where({ uuid })
         .select()
         .then((res) => res[0]);
+    } catch (e) {
+      throw new Error(`db connector 'find' failure. ${e.message}`);
+    }
+  }
+
+  /**
+   * Find items with filters
+   * @static
+   * @async
+   * @param {string} collection
+   * @param {object} filters
+   * @returns {object[]}
+   */
+  static async find(collection, filter) {
+    const { query, values } = Filter.buildFilters(filter.filters);
+    try {
+      return this.db(collection)
+        .whereRaw(query, values)
+        .limit(filter.limit)
+        .select();
     } catch (e) {
       throw new Error(`db connector 'find' failure. ${e.message}`);
     }

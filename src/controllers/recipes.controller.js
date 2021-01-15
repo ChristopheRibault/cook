@@ -42,6 +42,10 @@ export default class RecipesController {
       .then((recipes) => RecipeService.populate(recipes));
   }
 
+  static async getRecipes(req) {
+    return Dbrecipes.getAll(req.filter);
+  }
+
   /**
    * Update a recipe
    * @param {Object} req http request

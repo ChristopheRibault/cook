@@ -29,10 +29,9 @@ export default (collection) => {
         .findByUuids(collection, uuids);
     }
 
-    static async getAll() {
+    static async getAll(filter) {
       return Relational
-        .db(collection)
-        .select();
+        .find(collection, filter);
     }
   }
 

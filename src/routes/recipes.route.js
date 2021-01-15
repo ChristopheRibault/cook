@@ -18,6 +18,12 @@ export default [
     handler: controllers.Recipes.getRecipeByUuid,
   },
   {
+    method: 'GET',
+    path: '/recipes',
+    validators: [],
+    handler: controllers.Recipes.getRecipes,
+  },
+  {
     method: 'PATCH',
     path: '/recipes/:uuid',
     validators: [],
