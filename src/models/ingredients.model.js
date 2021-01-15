@@ -1,30 +1,25 @@
-import Uuid from 'uuid/dist/v4';
-import db from '../knex';
-
 import GenericModel from './generic.model';
 
 export default class IngredientsModel extends GenericModel('ingredients') {
-  static async selectOrCreate(ingredients) {
-    const toCreate = [];
-    await Promise.each(ingredients, async (ingredient) => {
-      ingredient.ingredient_uuid = await db('ingredients')
-        .where({ name: ingredient.name })
+  static async selectOrCreate(data) {
+    await Promise.each(data, async (item) => {
+      // Get uuid of existing ingredients
+      item.ingredient_uuid = await this.Relational.db('ingredients')
+        .where({ name: item.name })
         .select('uuid')
         .then((res) => res[0]?.uuid);
 
-      if (!ingredient.ingredient_uuid) {
-        ingredient.ingredient_uuid = Uuid();
-        toCreate.push({
-          uuid: ingredient.ingredient_uuid,
-          name: ingredient.name,
-        });
+      // Create new ingredients
+      if (!item.ingredient_uuid) {
+        item.ingredient_uuid = await this.createOne({
+          name: item.name,
+        })
+          .then((ingr) => ingr.uuid);
       }
 
-      delete ingredient.name;
+      delete item.name;
     });
 
-    this.createBulk(toCreate);
-
-    return ingredients;
+    return data;
   }
 }

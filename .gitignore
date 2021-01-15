@@ -1,3 +1,5 @@
+resources/mysql
+
 # Logs
 logs
 *.log

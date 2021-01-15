@@ -1,16 +1,25 @@
-version: '2.0'
+version: '3'
 services:
 
-  mysql-main:
+  db:
     image: mysql:5.7
-    container_name: resources_mysql-main
+    container_name: mysql
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=clevy-local-main
-      - MYSQL_USER=clevy
-      - MYSQL_PASSWORD=clevy
+      - MYSQL_DATABASE=cook-local-main
+      - MYSQL_USER=cook
+      - MYSQL_PASSWORD=cook
     ports:
       - 3306:3306
     volumes:
       - ./mysql/main/data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - 8081:80
+    links:
+      - db
 
