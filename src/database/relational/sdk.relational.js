@@ -106,13 +106,31 @@ export default class Relational extends Generic {
    * @param {string[]} uuids
    * @returns {object[]}
    */
-  static findByUuids(collection, uuids) {
+  static async findByUuids(collection, uuids) {
     try {
       return this.db(collection)
         .whereIn('uuid', uuids)
         .select();
     } catch (e) {
       throw new Error(`db connector 'findByUuids' failure. ${e.message}`);
+    }
+  }
+
+  /**
+   * Delete items with filter
+   * @static
+   * @async
+   * @param {string} collection
+   * @param {object} filter
+   */
+  static async deleteAll(collection, filter) {
+    const { query, values } = Filter.buildFilters(filter.filters);
+    try {
+      return this.db(collection)
+        .whereRaw(query, values)
+        .del();
+    } catch (e) {
+      throw new Error(`db connector 'deleteAll' failure. ${e.message}`);
     }
   }
 }

@@ -29,4 +29,10 @@ export default [
     validators: [],
     handler: controllers.Recipes.updateRecipe,
   },
+  {
+    method: 'DELETE',
+    path: '/recipes',
+    validators: [],
+    handler: controllers.Recipes.deleteRecipes,
+  },
 ];

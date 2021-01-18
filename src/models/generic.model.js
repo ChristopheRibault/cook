@@ -33,6 +33,11 @@ export default (collection) => {
       return Relational
         .find(collection, filter);
     }
+
+    static async deleteAll(filter) {
+      return Relational
+        .deleteAll(collection, filter);
+    }
   }
 
   return GenericModel;
