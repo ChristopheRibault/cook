@@ -14,12 +14,3 @@ services:
       - 3306:3306
     volumes:
       - ./mysql/main/data:/var/lib/mysql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    ports:
-      - 8081:80
-    links:
-      - db
-
