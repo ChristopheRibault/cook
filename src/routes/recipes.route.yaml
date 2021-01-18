@@ -1,0 +1,59 @@
+components:
+  schemas:
+    recipe:
+      properties:
+        title:
+          description: title of the recipe
+          type: string
+        instructions:
+          description: List of recipe instructions
+          type: array
+          items: 
+            type: string
+        ingredients:
+          description: List of recipe ingredients
+          type: array
+          items:
+            $ref: '#/components/schemas/ingredient'
+      required:
+        - title
+        - instructions
+
+    ingredient:
+      properties:
+        name:
+          description: name of the ingredients
+          type: string
+        complement:
+          description: A descriptive complement to the ingredient for this particular recipe
+          type: string
+        quantity:
+          description: The quantity of the ingredient for the recipe
+          type: integer
+      required:
+        - name
+
+/recipes:
+  post:
+    description: Creates recipes
+    requestBody:
+      content:
+        'application/json':
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/recipe'
+    responses:
+      201:
+        description: Success
+      400:
+        description: Bad Request
+
+  get:
+    description: Get recipes
+    responses:
+      201:
+        description: Success
+      404:
+        description: Not found
+

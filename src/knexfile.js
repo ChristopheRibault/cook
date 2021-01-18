@@ -1,3 +1,3 @@
-import Knexfile from './database/relational/knex/knexfile';
+const Knexfile = require('./database/relational/knex/knexfile');
 
 module.exports = Knexfile;

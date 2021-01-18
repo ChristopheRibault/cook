@@ -42,8 +42,16 @@ export default class RecipesController {
       .then((recipes) => RecipeService.populate(recipes));
   }
 
+  /**
+   * Find recipes with filters
+   * @static
+   * @async
+   * @param {object} req
+   * @returns {object[]} recipes
+   */
   static async getRecipes(req) {
-    return Dbrecipes.getAll(req.filter);
+    return Dbrecipes.getAll(req.filter)
+      .then((recipes) => RecipeService.populate(recipes));
   }
 
   /**
@@ -55,6 +63,22 @@ export default class RecipesController {
     return Dbrecipes.updateOne(req.params.uuid, req.body);
   }
 
+  /**
+   * Delete recipes with filters
+   * @static
+   * @async
+   * @param {object} req
+   */
+  static async deleteRecipes(req, res) {
+    await Dbrecipes.deleteAll(req.filter);
+    res.sendStatus(204);
+  }
+
+  /**
+   * Search recipes
+   * @param {object} req
+   * @returns {object[]} recipes
+   */
   static async searchRecipes(req) {
     return Dbrecipes.search(req.query.q)
       .then((recipes) => RecipeService.populate(recipes));

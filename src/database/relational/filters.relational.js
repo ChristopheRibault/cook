@@ -21,6 +21,8 @@ export default class Filter {
   static buildFilters(filters) {
     let query = '';
     const values = [];
+    if (!filters) return { query, values };
+
     Object.keys(filters).forEach((property) => {
       Object.keys(filters[property]).forEach((condition) => {
         query += `${property} ${this.operators[condition]} ? and `;
