@@ -10,3 +10,8 @@
 ## API documentation
 
 http://localhost:3000/swagger/
+
+## Running tests
+
+- Prepare DB: `npm run test:prepare`
+- run tests: `npm run test`

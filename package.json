@@ -6,9 +6,16 @@
   "scripts": {
     "start": "env $(cat .env) pm2 startOrRestart ecosystem.config.js",
     "resources": "env $(cat .env) ./resources/run.sh",
-    "scrape": "node ./resources/scraper/process.js"
+    "knex:migrate": "env $(cat .env) knex migrate:latest",
+    "knex:rollback": "env $(cat .env) knex migrate:rollback",
+    "scrape": "node ./resources/scraper/process.js",
+    "test:resources": "env $(cat .env-test) ./test/resources/run.sh",
+    "test:prepare": "env $(cat .env-test) knex migrate:latest --env test",
+    "test:rollback": "env $(cat .env-test) knex migrate:rollback --env test",
+    "test:rebuild": "npm run test:rollback && npm run test:prepare",
+    "test": "env $(cat .env-test) mocha"
   },
-  "author": "",
+  "author": "Christophe Ribault",
   "license": "ISC",
   "dependencies": {
     "@babel/register": "^7.12.10",
@@ -22,6 +29,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "scrape-it": "^5.2.4",
+    "sqlite3": "^5.0.1",
     "swagger-jsdoc": "^6.0.1",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.1"
@@ -31,8 +39,11 @@
     "@babel/eslint-parser": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "mocha": "^7.2.0"
   }
 }
