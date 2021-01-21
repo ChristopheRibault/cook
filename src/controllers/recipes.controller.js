@@ -7,7 +7,7 @@ export default class RecipesController {
    * @param {Object} req http request
    * @returns {Object[]} inserted data
    */
-  static async createRecipes(req) {
+  static async createRecipes(req, res) {
     const recipes = Array.isArray(req.body) ? req.body : [req.body];
 
     await Promise.each(recipes, async (data) => {
@@ -29,6 +29,7 @@ export default class RecipesController {
       await DbrecipeIngredient.createBulk(recipeIngredients);
     });
 
+    res.status(201);
     return recipes;
   }
 

@@ -2,40 +2,89 @@ components:
   schemas:
     recipe:
       properties:
+        uuid:
+          type: string
+          example: 9e064325-b26c-41d3-8410-b3f370eeb046
         title:
           description: title of the recipe
           type: string
+          example: chocolate cake
         instructions:
           description: List of recipe instructions
           type: array
           items: 
             type: string
+            example: Mix all the ingredients
         ingredients:
           description: List of recipe ingredients
           type: array
           items:
             $ref: '#/components/schemas/ingredient'
+        origin:
+          description: origin source of the recipe
+          type: string
+          example: 'marmiton'
+        link:
+          description: link to the original recipe
+          type: string
+          example: https://www.marmiton.org/recettes/recette_ramequins-fondants-au-chocolat_15816.aspx
+        creator_uuid:
+          description: id of creator if exists in DB
+          type: string
+          example: 9e064325-b26c-41d3-8410-b3f370eeb046
       required:
         - title
         - instructions
 
     ingredient:
       properties:
+        uuid:
+          type: string
+          example: 9e064325-b26c-41d3-8410-b3f370eeb046
         name:
           description: name of the ingredients
           type: string
-        complement:
-          description: A descriptive complement to the ingredient for this particular recipe
-          type: string
+          example: g of sugar
         quantity:
           description: The quantity of the ingredient for the recipe
           type: integer
+          example: 200
+        complement:
+          description: A descriptive complement to the ingredient for this particular recipe
+          type: string
+          example: (or a subtitute)
       required:
         - name
+
+parameters:
+  schemas:
+    filters:
+      type: object
+      properties:
+        filter:
+          type: object
+          example: { 
+            name: {like: '%chocolate cake%'},
+            tags: {eq: 'desert'}
+            }
+        order:
+          type: string
+          example: 'asc'
+        pagination:
+          type: object
+          properties:
+            limit:
+              type: integer
+              example: 20
+            offset:
+              type: integer
+              example: 50
 
 /recipes:
   post:
     description: Creates recipes
+    tags:
+      - Recipes
     requestBody:
       content:
         'application/json':
@@ -45,15 +94,101 @@ components:
               $ref: '#/components/schemas/recipe'
     responses:
       201:
-        description: Success
+        description: The created recipes
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/recipe'
       400:
         description: Bad Request
 
   get:
     description: Get recipes
+    tags:
+      - Recipes
+    parameters:
+      - name: filters
+        in: query
+        required: false
+        schema:
+          $ref: '#/parameters/schemas/filters'
     responses:
       201:
-        description: Success
+        description: The recipes
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/recipe'
       404:
         description: Not found
+
+  delete:
+    description: Delete recipes
+    tags:
+      - Recipes
+    parameters:
+      - name: filters
+        in: query
+        required: false
+        schema:
+          $ref: '#/parameters/schemas/filters'
+    responses:
+      204:
+        description: Success
+      403:
+        description: Forbidden
+
+/recipes/{uuid}:
+  get:
+    description: Get one recipe by uuid
+    tags:
+      - Recipes
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        type: string
+        example: 9e064325-b26c-41d3-8410-b3f370eeb046
+    responses:
+      201:
+        description: The recipe
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/recipe'
+      404:
+        description: Not found
+
+  patch:
+    description: Update a recipe
+    tags:
+      - Recipes
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        type: string
+        example: 9e064325-b26c-41d3-8410-b3f370eeb046
+    requestBody:
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/recipe'
+    responses:
+      201:
+        description: The recipe
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/recipe'
+      404:
+        description: Not found
+      400:
+        description: Bad request
+
+
 
