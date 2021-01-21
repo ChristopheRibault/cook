@@ -1,4 +1,4 @@
-resources/mysql
+**/resources/mysql
 
 # Logs
 logs

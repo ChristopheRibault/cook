@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 module.exports = {
 
   development: {
@@ -16,6 +14,17 @@ module.exports = {
     },
     seeds: {
       directory: `${__dirname}/seeds`,
+    },
+  },
+
+  test: {
+    client: 'sqlite3',
+    connection: {
+      filename: `${__dirname}/test/test.sqlite`,
+    },
+    migrations: {
+      directory: `${__dirname}/test/migrations`,
+      tableName: 'knex_migrations',
     },
   },
 

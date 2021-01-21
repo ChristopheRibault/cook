@@ -2,9 +2,12 @@ import express from 'express';
 import Promise from 'bluebird';
 
 import Recipes from './recipes.route';
+import Default from './default.route';
 
 export const routes = [
   ...Recipes,
+
+  ...Default,
 ];
 
 export const createRouter = (app) => {

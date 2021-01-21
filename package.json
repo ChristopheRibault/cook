@@ -6,10 +6,13 @@
   "scripts": {
     "start": "env $(cat .env) pm2 startOrRestart ecosystem.config.js",
     "resources": "env $(cat .env) ./resources/run.sh",
+    "knex:migrate": "env $(cat .env) knex migrate:latest",
+    "knex:rollback": "env $(cat .env) knex migrate:rollback",
     "scrape": "node ./resources/scraper/process.js",
+    "test:prepare": "knex migrate:latest --env test",
     "test": "mocha"
   },
-  "author": "",
+  "author": "Christophe Ribault",
   "license": "ISC",
   "dependencies": {
     "@babel/register": "^7.12.10",
@@ -23,6 +26,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "scrape-it": "^5.2.4",
+    "sqlite3": "^5.0.1",
     "swagger-jsdoc": "^6.0.1",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.1"

@@ -1,11 +1,12 @@
-require('@babel/register');
+const { requester, expect } = require('./config');
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const app = require('../src');
-const expect = chai.expect;
+it('Is healthy', (done) => {
+  requester
+    .get('/')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res).to.have.status(200);
+      done();
+    });
+});
 
-chai.request(app)
-  .get('/recipes')
-  .then(res => console.log(res.body))

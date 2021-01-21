@@ -1,6 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import Recipes from './recipes.controller';
+import Default from './default.controller';
 
 export {
   Recipes,
+  Default,
 };
