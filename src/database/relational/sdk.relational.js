@@ -43,7 +43,7 @@ export default class Relational extends Generic {
     if (!Array.isArray(data)) return this.set(collection, data);
 
     try {
-      await this.db
+      return this.db
         .transaction((trx) => {
           const queries = data
             .map((item) => this.set(collection, item));
@@ -52,8 +52,6 @@ export default class Relational extends Generic {
             .then(trx.commit)
             .catch(trx.rollback);
         });
-
-      return data;
     } catch (e) {
       throw new Error(`db connector 'setAll' failure. ${e.message}`);
     }
