@@ -89,7 +89,7 @@ export default class Relational extends Generic {
     try {
       return this.db(collection)
         .whereRaw(query, values)
-        .limit(filter.limit)
+        .limit(filter.limit || process.env.MAX_LIMIT)
         .select();
     } catch (e) {
       throw new Error(`db connector 'find' failure. ${e.message}`);

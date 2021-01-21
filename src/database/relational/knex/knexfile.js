@@ -18,12 +18,16 @@ module.exports = {
   },
 
   test: {
-    client: 'sqlite3',
+    client: 'mysql',
     connection: {
-      filename: `${__dirname}/test/test.sqlite`,
+      host: process.env.DB_HOST,
+      database: process.env.DB_DATABASE,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
     },
     migrations: {
-      directory: `${__dirname}/test/migrations`,
+      directory: `${__dirname}/migrations`,
       tableName: 'knex_migrations',
     },
   },

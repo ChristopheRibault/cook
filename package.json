@@ -9,8 +9,11 @@
     "knex:migrate": "env $(cat .env) knex migrate:latest",
     "knex:rollback": "env $(cat .env) knex migrate:rollback",
     "scrape": "node ./resources/scraper/process.js",
-    "test:prepare": "knex migrate:latest --env test",
-    "test": "mocha"
+    "test:resources": "env $(cat .env-test) ./test/resources/run.sh",
+    "test:prepare": "env $(cat .env-test) knex migrate:latest --env test",
+    "test:rollback": "env $(cat .env-test) knex migrate:rollback --env test",
+    "test:rebuild": "npm run test:rollback && npm run test:prepare",
+    "test": "env $(cat .env-test) mocha"
   },
   "author": "Christophe Ribault",
   "license": "ISC",
