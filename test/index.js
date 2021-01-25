@@ -1,4 +1,13 @@
 const { requester, expect } = require('./config');
+const { recipes } = require('./data');
+const knexfile = require('../knexfile').test;
+const knex = require('knex')(knexfile);
+const cleaner = require('knex-cleaner');
+
+after(() => {
+  requester.close();
+  process.exit(0);
+});
 
 describe('HealthCheck', () => {
   it('Is healthy', (done) => {
@@ -12,47 +21,38 @@ describe('HealthCheck', () => {
   });
 });
 
-
 describe('Recipes', () => {
-  const recipe = {
-    "title": "Recette Test 01",
-    "instructions": [
-      "1. Lorem Ipsum",
-      "2. Dolor sit amet"
-    ],
-    "ingredients": [
-      {
-        "name": "reused",
-        "complement": "comp",
-        "quantity": 2
-      },
-      {
-        "name": "other",
-        "quantity": 3
-      },
-    ]
-  };
-
-  it('Should create a recipe', (done) => {
+  it('Should create recipes', (done) => {
     requester
       .post('/recipes')
       .set('content-type', 'application/json')
-      .send(recipe)
+      .send(recipes)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(201);
-        expect(res.body[0]).to.be.an('object');
+        expect(res.body).to.be.an('array').and.have.length(2);
         done();
       });
   });
 
-  it('Should return one recipe', (done) => {
+  it('Should have created ingredients without duplicates', (done) => {
+    requester
+      .get('/ingredients')
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array').and.have.length(3);
+        done();
+      });
+  });
+
+  it('Should return two recipes', (done) => {
     requester
     .get('/recipes')
     .end((err, res) => {
       expect(err).to.be.null;
       expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array').and.have.length(1);
+      expect(res.body).to.be.an('array').and.have.length(2);
       expect(res.body[0]).to.haveOwnProperty('uuid');
       done();
     })
@@ -61,18 +61,16 @@ describe('Recipes', () => {
   it('Should delete a recipe', (done) => {
     requester
       .delete('/recipes')
-      .query({name: {eq: 'Recette Test 01'}})
+      .query({filter: {title: {eq: 'Recette Test 01'}}})
       .then((res) => {
         expect(res).to.have.status(204);
-        return requester
+        requester
           .get('/recipes')
           .then((res) => {
-            expect(res.body).to.be.an('array').and.have.length(0);
+            expect(res.body).to.be.an('array').and.have.length(1);
             done();
           });
       });
   });
 
 });
-
-

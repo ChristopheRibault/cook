@@ -28,6 +28,7 @@ const server = app.listen(process.env.API_PORT || 3000, () => {
 });
 
 app.use(middlwares.Request.makeFilters);
+app.use(middlwares.User.getUser);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));

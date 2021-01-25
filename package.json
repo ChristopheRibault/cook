@@ -8,6 +8,7 @@
     "resources": "env $(cat .env) ./resources/run.sh",
     "knex:migrate": "env $(cat .env) knex migrate:latest",
     "knex:rollback": "env $(cat .env) knex migrate:rollback",
+    "knex:seed": "env $(cat .env) knex seed:run",
     "scrape": "node ./resources/scraper/process.js",
     "test:resources": "env $(cat .env-test) ./test/resources/run.sh",
     "test:prepare": "env $(cat .env-test) knex migrate:latest --env test",
@@ -19,12 +20,14 @@
   "license": "ISC",
   "dependencies": {
     "@babel/register": "^7.12.10",
+    "bcrypt": "^5.0.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "joi": "^17.3.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.12",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
@@ -44,6 +47,7 @@
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "knex-cleaner": "^1.3.1",
     "mocha": "^7.2.0"
   }
 }

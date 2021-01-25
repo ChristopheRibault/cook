@@ -1,0 +1,64 @@
+components:
+  schemas:
+    user:
+      properties:
+        pseudo:
+          type: string
+          example: bestcook
+        email:
+          type: string
+          example: bestcook@cook.com
+        password:
+          type: string
+          example: P@ss\/\/0rd!
+
+/auth/subscribe:
+  post:
+    description: Create a new user
+    tags:
+      - Auth
+      - Users
+    requestBody:
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/user'
+    responses:
+      201:
+        description: The created user
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/user'
+      400:
+        description: Bad request
+
+/auth/register:
+  post:
+    description: Sign in a user
+    tags:
+      - Auth
+    requestBody:
+      content:
+        'application/json':
+          schema:
+            properties:
+              email:
+                type: string
+                example: bestcook@cook.com
+              password:
+                type: string
+                example: P@ss\/\/0rd!
+    responses:
+      200:
+        description: Access granted
+        content:
+          'application/json':
+            schema:
+              properties:
+                token:
+                  type: string
+      400:
+        description: Bad Request
+      403:
+        description: Access denied

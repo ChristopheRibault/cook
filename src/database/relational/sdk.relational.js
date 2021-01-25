@@ -1,4 +1,4 @@
-import Uuid from 'uuid/dist/v4';
+import { v4 as uuidv4 } from 'uuid';
 import knex from 'knex';
 import knexfile from './knex/knexfile';
 import Generic from '../generic.database';
@@ -16,7 +16,7 @@ export default class Relational extends Generic {
    * @returns {object} Inserted data
    */
   static async set(collection, data) {
-    data.uuid = data.uuid || Uuid();
+    data.uuid = data.uuid || uuidv4();
 
     try {
       await this.db(collection)
