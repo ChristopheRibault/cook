@@ -26,7 +26,7 @@ export default [
   {
     method: 'DELETE',
     path: '/recipes',
-    validators: [],
+    validators: [validators.Auth.userIsAdmin],
     handler: controllers.Recipes.deleteRecipes,
   },
 ];
